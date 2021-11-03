@@ -1,18 +1,32 @@
 package main
 
 import (
+	"log"
 	"net/http"
+	"rubicon-blog/global"
 	"rubicon-blog/internal/routers"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
+func init() {
+	err := global.LoadConfig()
+	if err != nil {
+		log.Fatalf("config.LoadConfig err: %v", err)
+	}
+	log.Printf("Server:%+v", global.ServerSetting)
+	log.Printf("App:%+v", global.AppSetting)
+	log.Printf("DB:%+v", global.DatabaseSetting)
+
+}
 func main() {
+	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
 	s := &http.Server{
-		Addr:           ":8080",
+		Addr:           ":" + global.ServerSetting.HttpPort,
 		Handler:        router,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
+		ReadTimeout:    global.ServerSetting.ReadTimeout,
+		WriteTimeout:   global.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 	s.ListenAndServe()
