@@ -19,3 +19,11 @@ func NewConfig() (*Config, error) {
 	}
 	return &Config{vp}, nil
 }
+
+func (c *Config) ReadSection(k string, v interface{}) error {
+	err := c.vp.UnmarshalKey(k, v)
+	if err != nil {
+		return err
+	}
+	return nil
+}

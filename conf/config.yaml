@@ -8,7 +8,7 @@ App:
   MaxPageSize: 100
   LogSavePath: storage/logs
   LogFileName: app
-  LogFileExt: .log
+  LogFileExt: .logger
 Database:
   DBType: mysql
   Username: root  # 填写你的数据库账号
